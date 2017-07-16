@@ -4,7 +4,6 @@
     <list default="true" id="28c39f81-2a2a-4fe9-8386-543af2cc8cd1" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testeNumpyeAfis" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GeneticAlgoritm.py" afterPath="$PROJECT_DIR$/GeneticAlgoritm.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -290,7 +289,14 @@
       <option name="project" value="LOCAL" />
       <updated>1500213840133</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Implementações.1">
+      <created>1500235915332</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1500235915332</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -322,7 +328,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Implementações" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementações" />
+    <MESSAGE value="Implementações.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implementações.1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
