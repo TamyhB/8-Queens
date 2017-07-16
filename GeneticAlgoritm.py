@@ -1,6 +1,7 @@
 import Numpy as np
 from random import randint
-queens = 8
+import random
+
 mutation = 0,01
 probabilidade = 0,02
 class GeneticAlgoritm:
@@ -10,8 +11,18 @@ class GeneticAlgoritm:
         avaliacao = None
 
 
-    #def createGeneration(queens):
-     #   while 1
+    def createCross(queen):
+
+        for i in 4:
+            x = np.arange(queen)
+            np.random.shuffle(x)
+        return  x
+
+    def createPol(self):
+        population = []
+        for i in 8:
+            population.append(self.createCross(8))
+        return population
 
     def algGenetic(self, population, fnAdapt):
         while 1:
@@ -20,8 +31,6 @@ class GeneticAlgoritm:
                 x = self.seletionAleatoria(population, fnAdapt )
                 y = self.seletionAleatoria(population,fnAdapt)
                 child, child2 = self.reproduction(x,y)
-                child.avaliacao = fnAdapt(child)
-                child2.avaliacao = fnAdapt(child)
                 child_F = None
                 if(child.avaliacao >= child2.avaliacao):
                     child_F = child
@@ -56,5 +65,14 @@ class GeneticAlgoritm:
         return filho
 
     def fnAdapt(candidate):
+        confrontos = 0
+        col_confrontos = abs(len(candidate.tabuleiro) - len(np.unique(candidate.tabuleiro)))
+        confrontos = confrontos + col_confrontos
+        for i in range(len(candidate.tabuleiro)):
+            for j in range(len(candidate.tabuleiro)):
+                if (i != j):
+                    dx = abs(i - j)
+                    dy = abs(candidate.tabuleiro[i] - candidate.tabuleiro[j])
+                    if (dx == dy):
+                        confrontos += 1
 
-        return 10
