@@ -1,4 +1,3 @@
-import Numpy as np
 from random import randint
 import random
 
