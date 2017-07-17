@@ -1,103 +1,79 @@
 import random
-import pprint
-
-chessboard = [[0]*8 for n in range(8)]
-numberQueens = 1
-for numberQueens in range(9):
-    random.choice(chessboard)[random.randrange(len(chessboard))] += numberQueens
-pprint.pprint(chessboard)
+import time
 
 
-def column(matrix, i):
-    return [row[i] for row in matrix]
+possibleStatements = 0
+changeStatements = 0
+randomRestarts = 0
+
+def randomBoard():
+    items = [0, 1, 2, 3, 4, 5, 6, 7]
+    random.shuffle(items)
+    return items
+
+def stateQueens(state):
+    value = 0
+    for i in range(8):
+        for j in range(8):
+            if i != j and (abs(j-i) == abs(state[i] - state[j]) or state[i] == state[j]):
+                value += 1
+
+    return value/2
+
+def nextMove(currentState, iteration):
+    tempState = list(currentState)
+    passIt = tempState[iteration]  # For same statement; current and next.
+    bestValue = 28
+    global possibleStatements
+
+    for i in range(8):
+
+        if i != passIt:
+            tempState[iteration] = i
+            currentValue = stateQueens(tempState)
+
+            if currentValue < bestValue:
+                bestValue = currentValue
+                bestState = list(tempState)
+            possibleStatements += 1
+
+    return bestState, bestValue
+
+def HillClimb(startState, nextMove, stateQueens):
+    currentState = startState
+    currentValue = stateQueens(currentState)
+
+    global changeStatements
+    global randomRestarts
+    iteration = 0
+
+    while True:
+
+        nextState, nextValue = nextMove(currentState, iteration)
+        if nextValue < currentValue:
+            currentState = list(nextState)
+            currentValue = nextValue
+            changeStatements += 1
+
+            if currentValue == 0:
+                return currentState
+
+        elif iteration == 7:
+            randomRestarts += 1
+            return HillClimb(randomBoard(), nextMove, stateQueens)
 
 
-def get_cost(matrix):
-    h = 0
-    l = len(chessboard)
-    col = 0
-    for i in column(chessboard,col):
-        print column(chessboard,col)
-        for j in column(chessboard, col + 1):
-            print column(chessboard, col)
-            # if chessboard[i][i] == chessboard[i][j]:
-            #     h += 1
-            # diagonal = j - i
-            # if (chessboard[i][i] == chessboard[i][j] - diagonal or chessboard[i][i] == chessboard[i][j] + diagonal):
-            #     h += 1
-        col += 1
+        iteration = (iteration + 1) % 8  # When 8 columns finish, iteration restarts
 
 
-# def hillClimb(matrix):
-#     global column
-#     moves = {}
-#     i = 0
-#     for col in column(chessboard,i):
-#         best_move = column(chessboard,col)
-#         i += 1
-#         for row in range(len(chessboard)):
-#             if best_move == row:
-#                 continue
-#             board_copy = list(chessboard)
-#
-#
-#
-#
-#
-# get_cost(chessboard)
-# print get_cost(chessboard)
-#
-# def make_move_steepest_hill(board):
-#     moves = {}
-#     for col in range(len(board)):
-#         best_move = board[col]
-#
-#         for row in range(len(board)):
-#             if board[col] == row:
-#                 # We don't need to evaluate the current
-#                 # position, we already know the h-value
-#                 continue
-#
-#             board_copy = list(board)
-#             # Move the queen to the new row
-#             board_copy[col] = row
-#             moves[(col, row)] = get_h_cost(board_copy)
-#
-#     best_moves = []
-#     h_to_beat = get_h_cost(board)
-#     for k, v in moves.iteritems():
-#         if v < h_to_beat:
-#             h_to_beat = v
-#
-#     for k, v in moves.iteritems():
-#         if v == h_to_beat:
-#             best_moves.append(k)
-#
-#     # Pick a random best move
-#     if len(best_moves) > 0:
-#         pick = random.randint(0, len(best_moves) - 1)
-#         col = best_moves[pick][0]
-#         row = best_moves[pick][1]
-#         board[col] = row
-#
-#     return board
-#
-#     # test = np.random.randint(8, size=(1, 8))
-# # col = [8]
-# # row = [8]
-# # board = [row][col]
-# get_h_cost(chessboard)
-# print get_h_cost(chessboard)
-# make_move_steepest_hill(chessboard)
-# print make_move_steepest_hill(chessboard)
+if __name__ == '__main__':
 
-# Matrix = [[0]*2 for n in range(8)]
-# value = 2
-# l = len(Matrix)
-# for a in range(l):
-#       for b in range(len(Matrix[a])):
-#                if Matrix[a][b] == value:
-#                     Matrix[a][b] = 1
-#                else:
-#                     Matrix[a][b] = 0
-# print Matrix
+    startState = randomBoard()
+    resultStatement = HillClimb(startState, nextMove, stateQueens)
+    print "Result Statement:", resultStatement
+    print "\nThe number of analyzed possible statements:", possibleStatements
+    print "\nThe number of statement changes:", changeStatements
+    print "\nThe number of random restarts:", randomRestarts
+
+
+
