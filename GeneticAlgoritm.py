@@ -2,7 +2,7 @@ import numpy as np
 from random import randint
 import random
 
-mutacao = 0.1
+mutacao = 0.01
 probabilidade = None
 queens = 8
 
@@ -50,6 +50,8 @@ def minimo_vetor(vetor_populacao):
 
 def algGenetic(population):
     nova_populacao = []
+    aux = minimo_vetor(population)
+    print "Minimo POPULACAO " + str(aux.tabuleiro)
     while 1:
         for i in range(0,7):
             x = selecao_aleatoria_ponderada(population)
@@ -64,8 +66,9 @@ def algGenetic(population):
             else:
                 best_child = child2
             probabilidade = random.random()
-            print probabilidade
+
             if probabilidade <= mutacao:
+                print "probabilidade de mutacao " + str(probabilidade)
                 best_child = mutation(best_child)
                 best_child.avaliacao = avaliar_confrontos_rainhas(best_child)
                 nova_populacao.append(best_child)
@@ -173,7 +176,7 @@ def avaliar_confrontos_rainhas(candidate):
 
     return  confrontos
 
-nova_populacao = create_populacao(100)
+nova_populacao = create_populacao(1000)
 result = algGenetic(nova_populacao)
 print result.tabuleiro
 print result.avaliacao
