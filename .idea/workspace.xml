@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="28c39f81-2a2a-4fe9-8386-543af2cc8cd1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GeneticAlgoritm.py" afterPath="$PROJECT_DIR$/GeneticAlgoritm.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -572,7 +571,14 @@
       <option name="project" value="LOCAL" />
       <updated>1500339888175</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="ta pronto!">
+      <created>1500407927989</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1500407927989</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -645,7 +651,8 @@
     <MESSAGE value="ta quase?" />
     <MESSAGE value="ta quase?.2" />
     <MESSAGE value="ta quase?.3" />
-    <option name="LAST_COMMIT_MESSAGE" value="ta quase?.3" />
+    <MESSAGE value="ta pronto!" />
+    <option name="LAST_COMMIT_MESSAGE" value="ta pronto!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
