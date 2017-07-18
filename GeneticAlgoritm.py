@@ -53,7 +53,10 @@ def algGenetic(population):
     while 1:
         for i in range(0,7):
             x = selecao_aleatoria_ponderada(population)
-            y = selecao_aleatoria_ponderada(population)
+            while 1:
+                y = selecao_aleatoria_ponderada(population)
+                if y!=x:
+                    break
             child, child2 = reproduction(x,y)
             best_child = None
             if(child.avaliacao <= child2.avaliacao):
@@ -170,7 +173,7 @@ def avaliar_confrontos_rainhas(candidate):
 
     return  confrontos
 
-nova_populacao = create_populacao(1000)
+nova_populacao = create_populacao(100)
 result = algGenetic(nova_populacao)
 print result.tabuleiro
 print result.avaliacao
