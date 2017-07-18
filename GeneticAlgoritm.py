@@ -1,11 +1,14 @@
 import numpy as np
 from random import randint
 import random
+import sys
 
 mutacao = 0.01
 probabilidade = None
 queens = 8
-
+STOP_CTR = 0
+MAX_ITER = 100000
+POPULATION = None
 class GeneticAlgoritm:
 
     def __init__(self):
@@ -18,23 +21,25 @@ class GeneticAlgoritm:
 
 
 def criar_cromossomo(queen):
-    for i in range(1,8):
         x = np.arange(queen)
         np.random.shuffle(x)
-    return  x
+        return  x
 
 
-def create_populacao(x):
-    population = []
-    for i in range(0, x):
-        x = GeneticAlgoritm()
-        x.tabuleiro = criar_cromossomo(8)
-        x.avaliacao = avaliar_confrontos_rainhas(x)
-        population.append(x)
+def create_populacao(tamanho_populacao = 100):
+    globals()
+
+    population = [GeneticAlgoritm() for i in range(tamanho_populacao)]
+    for i in range(0, tamanho_populacao):
+        population[i].tabuleiro = criar_cromossomo(8)
+        population[i].avaliacao = avaliar_ataque_rainhas(population[i])
+    print len(population)
+
     return population
 
 
 def minimo_vetor(vetor_populacao):
+    globals()
     menor = vetor_populacao[0]
     for individuo in vetor_populacao:
         if menor.avaliacao > individuo.avaliacao:
@@ -48,40 +53,7 @@ def minimo_vetor(vetor_populacao):
 #             maximo = individuo
 #     return maximo
 
-def algGenetic(population):
-    nova_populacao = []
-    aux = minimo_vetor(population)
-    print "Minimo POPULACAO " + str(aux.tabuleiro)
-    while 1:
-        for i in range(0,7):
-            x = selecao_aleatoria_ponderada(population)
-            while 1:
-                y = selecao_aleatoria_ponderada(population)
-                if y!=x:
-                    break
-            child, child2 = reproduction(x,y)
-            best_child = None
-            if(child.avaliacao <= child2.avaliacao):
-                best_child = child
-            else:
-                best_child = child2
-            probabilidade = random.random()
 
-            if probabilidade <= mutacao:
-                print "probabilidade de mutacao " + str(probabilidade)
-                best_child = mutation(best_child)
-                best_child.avaliacao = avaliar_confrontos_rainhas(best_child)
-                nova_populacao.append(best_child)
-            else:
-                nova_populacao.append(best_child)
-        population = nova_populacao
-        individuo = minimo_vetor(nova_populacao)
-        print "LEN POPULACAO " + str(len(population))
-        print "MINIMO ATUAL " + str(individuo.avaliacao)
-        print "MINIMO ATUAL " + str(individuo.tabuleiro)
-        if individuo.avaliacao == 0:
-            break
-    return individuo
 
 # def seletionAleatoria(population):
 #     newPop = randint(0,len(population)-1)
@@ -91,6 +63,7 @@ def algGenetic(population):
 #     return  population[newPop]
 
 def selecao_aleatoria_ponderada(population):
+    globals()
     faixa1 = []
     faixa2 = []
     faixa3 = []
@@ -107,32 +80,33 @@ def selecao_aleatoria_ponderada(population):
             faixa4.append(rainha)
 
     while 1:
-        dado_100_faces = randint(1, 100)
+        dado_100_faces = np.random.randint(1, 100)
 
         if dado_100_faces <= 5:
             if len(faixa4) > 0:
-                tamanho = len(faixa4) -1
-                indice = randint(0, tamanho)
+                tamanho = len(faixa4)
+                indice = np.random.randint(tamanho)
                 return faixa4[indice]
         elif dado_100_faces <= 15 and dado_100_faces > 5:
             if len(faixa3) > 0:
-                tamanho = len(faixa3) - 1
-                indice = randint(0, tamanho)
+                tamanho = len(faixa3)
+                indice = np.random.randint(tamanho)
                 return faixa3[indice]
         elif dado_100_faces <= 45 and dado_100_faces > 15:
             if len(faixa2) > 0:
-                tamanho = len(faixa2) - 1
-                indice = randint(0,tamanho)
+                tamanho = len(faixa2)
+                indice = np.random.randint(tamanho)
                 return faixa2[indice]
         elif 100 >= dado_100_faces > 45:
             if len(faixa1) > 0:
-                tamanho = len(faixa1) - 1
-                indice = randint(0, tamanho)
+                tamanho = len(faixa1)
+                indice = np.random.randint(tamanho)
                 return faixa1[indice]
 
 
 
 def reproduction(crossX, crossY):
+    globals()
     x = GeneticAlgoritm()
     y = GeneticAlgoritm()
     #print crossX.tabuleiro
@@ -148,21 +122,24 @@ def reproduction(crossX, crossY):
     aux_y.extend(crossX.tabuleiro[s[0]:])
     x.tabuleiro = np.array(aux_x)
     y.tabuleiro = np.array(aux_y)
-    #y.tabuleiro.extend(crossX.tabuleiro[0:(len(crossX.tabuleiro) - 1) - n])
-    #y.tabuleiro.extend(crossY.tabuleiro[abs((len(crossX.tabuleiro) - 1) - n):])
-    x.avaliacao = avaliar_confrontos_rainhas(x)
-    y.avaliacao = avaliar_confrontos_rainhas(y)
-    return x, y
-
+    x.avaliacao = avaliar_ataque_rainhas(x)
+    y.avaliacao = avaliar_ataque_rainhas(y)
+    if x.avaliacao <= y.avaliacao:
+        return x
+    else:
+        return y
 
 def mutation(filho):
+    globals()
     print "Mutation!!!"
-    i = randint(0,7)
-    x = randint(0,7)
+    i = np.random.randint(len(filho.tabuleiro))
+    x = np.random.randint(len(filho.tabuleiro))
     filho.tabuleiro[i] = x
+    filho.avaliacao = avaliar_ataque_rainhas(filho)
     return filho
 
-def avaliar_confrontos_rainhas(candidate):
+def avaliar_ataque_rainhas(candidate):
+    globals()
     confrontos = 0
     col_confrontos = abs(len(candidate.tabuleiro) - len(np.unique(candidate.tabuleiro)))
     confrontos = confrontos + col_confrontos
@@ -176,7 +153,55 @@ def avaliar_confrontos_rainhas(candidate):
 
     return  confrontos
 
-nova_populacao = create_populacao(1000)
-result = algGenetic(nova_populacao)
-print result.tabuleiro
-print result.avaliacao
+
+def stop():
+	globals()
+	fitnessvals = [pos.avaliacao for pos in population]
+	if STOP_CTR in fitnessvals:
+		return True
+	if MAX_ITER == iteration:
+		return True
+	return False
+
+
+
+
+def algGenetic(populacao):
+    nova_populacao = []
+    aux = minimo_vetor(populacao)
+    print "Minimo POPULACAO " + str(aux.tabuleiro)
+    for i in range(0,8):
+        x = selecao_aleatoria_ponderada(populacao)
+        while 1:
+            y = selecao_aleatoria_ponderada(populacao)
+            if y!=x:
+                break
+        child = reproduction(x,y)
+
+        probabilidade = np.random.random()
+
+        if probabilidade <= mutacao:
+            print "probabilidade de mutacao " + str(probabilidade)
+            child = mutation(child)
+            nova_populacao.append(child)
+        else:
+            nova_populacao.append(child)
+    populacao = nova_populacao
+    return nova_populacao
+
+
+population = create_populacao(1000)
+iteration = 0;
+while not stop():
+	# keep iteratin till  you find the best position
+	population = algGenetic(population)
+	iteration +=1
+
+print "Iteration number : ", iteration
+for each in population:
+    if each.avaliacao == 0:
+        print each.tabuleiro
+
+#result = algGenetic()
+#print result.tabuleiro
+#print result.avaliacao
