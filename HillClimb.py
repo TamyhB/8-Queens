@@ -6,12 +6,12 @@ testSolutions = 0
 trySolutions = 0
 restartSolution = 0
 
-def randomBoard():
+def randomBoard():  #Inicia um tabuleiro com as rainhas em posições aleatórias
     items = [0, 1, 2, 3, 4, 5, 6, 7]
     random.shuffle(items)
     return items
 
-def stateQueens(state):
+def stateQueens(state): #Verifica a posição das rainhas
     value = 0
     for i in range(8):
         for j in range(8):
@@ -23,7 +23,7 @@ def stateQueens(state):
 def nextMove(currentState, iteration):
     tempState = list(currentState)
     passIt = tempState[iteration]
-    bestValue = 20
+    bestValue = 20 #Valor de referencia
     global testSolutions, bestState
 
     for i in range(8):
@@ -70,6 +70,7 @@ if __name__ == '__main__':
 
     startState = randomBoard()
     resultStatement = HillClimb(startState, nextMove, stateQueens)
+    print "Tabuleiro Inicial:", startState
     print "Solução:", resultStatement
     print "\nNúmero de soluções testadas:", testSolutions
     print "\nNúmero de alterações:", trySolutions
