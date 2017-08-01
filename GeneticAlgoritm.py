@@ -46,22 +46,6 @@ def minimo_vetor(vetor_populacao):
             menor = individuo
     return menor
 
-# def maximo_vetor(vetor_populacao):
-#     maximo = vetor_populacao[0]
-#     for individuo in vetor_populacao:
-#         if maximo.avaliacao < individuo.avaliacao:
-#             maximo = individuo
-#     return maximo
-
-
-
-# def seletionAleatoria(population):
-#     newPop = randint(0,len(population)-1)
-#    # print  len(population)-1
-#     print len(population)
-#     print newPop
-#     return  population[newPop]
-
 def selecao_aleatoria_ponderada(population):
     globals()
     faixa1 = []
@@ -154,19 +138,12 @@ def avaliar_ataque_rainhas(candidate):
     return  confrontos
 
 
-def stop():
-	globals()
-	fitnessvals = [pos.avaliacao for pos in population]
-	if STOP_CTR in fitnessvals:
-		return True
-	if MAX_ITER == iteration:
-		return True
-	return False
 
 
 
 
-def algGenetic(populacao):
+
+def algoritmo_genetico(populacao):
     nova_populacao = []
     aux = minimo_vetor(populacao)
     print "Minimo POPULACAO " + str(aux.tabuleiro)
@@ -189,19 +166,24 @@ def algGenetic(populacao):
     populacao = nova_populacao
     return nova_populacao
 
+def stop():
+	globals()
+	avaliacao_populacao = [pos.avaliacao for pos in population]
+	if STOP_CTR in avaliacao_populacao:
+		return True
+	if MAX_ITER == iteration:
+		return True
+	return False
 
 population = create_populacao(1000)
 iteration = 0;
 while not stop():
-	# keep iteratin till  you find the best position
-	population = algGenetic(population)
+	population = algoritmo_genetico(population)
 	iteration +=1
+
 
 print "Iteration number : ", iteration
 for each in population:
     if each.avaliacao == 0:
         print each.tabuleiro
 
-#result = algGenetic()
-#print result.tabuleiro
-#print result.avaliacao
