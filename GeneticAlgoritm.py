@@ -26,7 +26,7 @@ def criar_cromossomo(queen):
         return  x
 
 
-def create_populacao(tamanho_populacao = 100):
+def criar_populacao(tamanho_populacao = 100):
     globals()
 
     population = [GeneticAlgoritm() for i in range(tamanho_populacao)]
@@ -175,7 +175,7 @@ def stop():
 		return True
 	return False
 
-population = create_populacao(1000)
+population = criar_populacao(1000)
 iteration = 0;
 while not stop():
 	population = algoritmo_genetico(population)
