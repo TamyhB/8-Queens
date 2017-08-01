@@ -122,16 +122,16 @@ def mutation(filho):
     filho.avaliacao = avaliar_ataque_rainhas(filho)
     return filho
 
-def avaliar_ataque_rainhas(candidate):
+def avaliar_ataque_rainhas(individuo):
     globals()
     confrontos = 0
-    col_confrontos = abs(len(candidate.tabuleiro) - len(np.unique(candidate.tabuleiro)))
-    confrontos = confrontos + col_confrontos
-    for i in range(len(candidate.tabuleiro)):
-        for j in range(len(candidate.tabuleiro)):
+    linhas_confrontos = abs(len(individuo.tabuleiro) - len(np.unique(individuo.tabuleiro)))
+    confrontos = confrontos + linhas_confrontos
+    for i in range(len(individuo.tabuleiro)):
+        for j in range(len(individuo.tabuleiro)):
             if (i != j):
                 dx = abs(i - j)
-                dy = abs(candidate.tabuleiro[i] - candidate.tabuleiro[j])
+                dy = abs(individuo.tabuleiro[i] - individuo.tabuleiro[j])
                 if (dx == dy):
                     confrontos += 1
 
